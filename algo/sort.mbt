@@ -159,7 +159,7 @@ pub fn heap_sort(arr : Array[Int]) -> Unit {
   let mut j = n - 1
   while j > 0 {
     swap_ints(arr, 0, j)
-    heapify(arr, n, j)
+    heapify(arr, j, 0)
     j = j - 1
   }
 }

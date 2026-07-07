@@ -331,7 +331,7 @@ pub fn BenchmarkRunPlan::summary(self : BenchmarkRunPlan) -> String {
 ///|
 test "default smoke run plan includes model catalog" {
   let plan = BenchmarkRunPlan::default_smoke()
-  assert_eq(plan.len(), 13)
+  assert_eq(plan.len(), 19)
   assert_true(plan.validate() == "ok")
   assert_true(plan.estimated_invocations() > 0)
   assert_true(plan.render_markdown().contains("Benchmark run plan"))

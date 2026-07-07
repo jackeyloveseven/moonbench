@@ -123,7 +123,7 @@ pub fn default_smoke_suite() -> SuiteResult {
 ///|
 test "default benchmark target catalog is usable" {
   let targets = default_benchmark_targets()
-  assert_eq(targets.length(), 13)
+  assert_eq(targets.length(), 19)
   assert_eq(targets[0], "array/sort/int-10k")
   assert_eq(targets[10], "tensor/matmul/f32-64x64")
   assert_eq(targets[12], "attention/softmax-head-128")
