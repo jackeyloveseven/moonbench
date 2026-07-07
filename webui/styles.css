@@ -482,6 +482,76 @@ tbody tr.danger { background-image: linear-gradient(90deg, rgba(180, 35, 24, 0.1
   color: var(--accent-ink);
 }
 
+.algo-section {
+  margin-bottom: 12px;
+}
+
+.algo-category {
+  margin-bottom: 16px;
+}
+
+.algo-category-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 6px;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.algo-table th {
+  padding: 8px 13px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.algo-table th:nth-child(n+3) { text-align: right; }
+
+.algo-table td {
+  padding: 9px 13px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  text-align: left;
+}
+
+.algo-table td:nth-child(n+3) { text-align: right; font-variant-numeric: tabular-nums; }
+
+.algo-table tbody tr {
+  cursor: pointer;
+}
+
+.algo-table tbody tr:hover {
+  background: var(--surface-tint);
+}
+
+.complexity-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 720;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  white-space: nowrap;
+}
+
+.complexity-badge.green { background: var(--accent-soft); color: var(--accent-ink); }
+.complexity-badge.yellow { background: var(--amber-soft); color: var(--amber); }
+.complexity-badge.red { background: var(--red-soft); color: var(--red); }
+
 .source-panel {
   overflow: hidden;
 }
