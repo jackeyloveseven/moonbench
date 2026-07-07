@@ -1,4 +1,4 @@
 ///|
 fn main {
-  println(@bench.default_smoke_suite().render_web_json())
+  println(@algo.algo_smoke_suite().render_web_json())
 }
