@@ -5,7 +5,7 @@ pub fn fib_iterative(n : Int) -> Int {
   }
   let mut a = 0
   let mut b = 1
-  for _ = 2; _ <= n; _ = _ + 1 {
+  for i = 2; i <= n; i = i + 1 {
     let c = a + b
     a = b
     b = c
