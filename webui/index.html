@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MoonBench Report</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div class="brand-block">
+          <p class="eyebrow">MoonBench / Yueheng</p>
+          <h1 id="suite-title">Default Smoke Suite</h1>
+          <p class="subtitle" id="suite-subtitle">Measures common MoonBit workloads: arrays, strings, maps, parsing, encoding, and graph traversal.</p>
+        </div>
+        <div class="actions">
+          <button id="lang-button" type="button" aria-label="Switch language">中文</button>
+          <button id="demo-button" type="button" data-i18n="actions.defaultSuite">Default Suite</button>
+          <label class="file-button">
+            <span data-i18n="actions.loadJson">Load JSON</span>
+            <input id="file-input" type="file" accept="application/json,.json">
+          </label>
+          <button id="export-button" type="button" data-i18n="actions.exportCsv">Export CSV</button>
+        </div>
+      </header>
+
+      <section class="run-strip" aria-label="Run health">
+        <div id="health-pill" class="health-pill">
+          <span class="health-dot"></span>
+          <strong id="health-label">Stable</strong>
+        </div>
+        <div class="run-fact">
+          <span data-i18n="metrics.samples">Samples</span>
+          <strong id="metric-samples">0</strong>
+        </div>
+        <div class="run-fact">
+          <span data-i18n="metrics.slowestMean">Slowest Mean</span>
+          <strong id="metric-slowest">0ns</strong>
+        </div>
+        <div class="run-fact">
+          <span data-i18n="metrics.config">Config</span>
+          <strong id="metric-config">0x0</strong>
+        </div>
+      </section>
+
+      <section class="summary-grid" aria-label="Run summary">
+        <article class="summary-cell">
+          <span data-i18n="metrics.cases">Cases</span>
+          <strong id="metric-count">0</strong>
+        </article>
+        <article class="summary-cell">
+          <span data-i18n="metrics.fastestMean">Fastest Mean</span>
+          <strong id="metric-fastest">0ns</strong>
+        </article>
+        <article class="summary-cell">
+          <span data-i18n="metrics.worstNoise">Worst Noise</span>
+          <strong id="metric-noisy">0</strong>
+        </article>
+        <article class="summary-cell">
+          <span data-i18n="metrics.outlierSamples">Outlier Samples</span>
+          <strong id="metric-outliers">0</strong>
+        </article>
+      </section>
+
+      <section class="layout">
+        <aside class="subject-panel" aria-label="Benchmark subjects">
+          <div class="section-head">
+            <h2 data-i18n="sections.subjects">Detected Subjects</h2>
+          </div>
+          <div id="subject-list" class="subject-list"></div>
+        </aside>
+
+        <section class="chart-panel" aria-label="Mean duration chart">
+          <div class="section-head">
+            <div>
+              <h2 data-i18n="sections.meanDuration">Mean Duration</h2>
+              <p id="chart-note" data-i18n="sections.chartNote">Mean runtime by benchmark case.</p>
+            </div>
+            <select id="sort-select" aria-label="Sort benchmarks">
+              <option value="mean-asc" data-i18n="sort.meanAsc">Mean ascending</option>
+              <option value="mean-desc" data-i18n="sort.meanDesc">Mean descending</option>
+              <option value="name" data-i18n="sort.name">Name</option>
+              <option value="rsd-desc" data-i18n="sort.noiseDesc">Noise descending</option>
+            </select>
+          </div>
+          <div id="bar-chart" class="bar-chart"></div>
+        </section>
+
+        <section class="detail-panel" aria-label="Selected benchmark">
+          <div class="section-head">
+            <div>
+              <h2 id="detail-name">Benchmark</h2>
+              <p id="detail-subject">Subject</p>
+            </div>
+            <span id="detail-badge" class="badge">stable</span>
+          </div>
+          <canvas id="sample-canvas" width="720" height="260"></canvas>
+          <dl class="detail-grid">
+            <div><dt data-i18n="detail.runs">Runs</dt><dd id="detail-runs">0</dd></div>
+            <div><dt data-i18n="detail.min">Min</dt><dd id="detail-min">0ns</dd></div>
+            <div><dt data-i18n="detail.median">Median</dt><dd id="detail-median">0ns</dd></div>
+            <div><dt data-i18n="detail.p95">P95</dt><dd id="detail-p95">0ns</dd></div>
+            <div><dt data-i18n="detail.max">Max</dt><dd id="detail-max">0ns</dd></div>
+            <div><dt>RSD</dt><dd id="detail-rsd">0%</dd></div>
+          </dl>
+        </section>
+      </section>
+
+      <section class="table-panel" aria-label="Benchmark table">
+        <div class="section-head table-head">
+          <h2 data-i18n="sections.results">Results</h2>
+          <p id="status-line" role="status">Default suite loaded</p>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="table.subject">Subject</th>
+              <th data-i18n="table.name">Name</th>
+              <th data-i18n="table.runs">Runs</th>
+              <th data-i18n="table.mean">Mean</th>
+              <th data-i18n="table.median">Median</th>
+              <th data-i18n="table.p95">P95</th>
+              <th data-i18n="table.stddev">Stddev</th>
+              <th>RSD</th>
+              <th data-i18n="table.outliers">Outliers</th>
+              <th data-i18n="table.signal">Signal</th>
+            </tr>
+          </thead>
+          <tbody id="result-body"></tbody>
+        </table>
+      </section>
+
+      <details class="source-panel">
+        <summary data-i18n="sections.reportJson">Report JSON</summary>
+        <div class="source-body">
+          <textarea id="json-input" spellcheck="false"></textarea>
+          <button id="apply-button" type="button" data-i18n="actions.applyJson">Apply JSON</button>
+        </div>
+      </details>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>

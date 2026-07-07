@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "chengyanli/moonbench/examples"
+
+import {
+  "chengyanli/moonbench/src",
+}
+
+// Values
+pub fn runner_demo_suite() -> @src.SuiteResult
+
+pub fn sorting_samples() -> @src.SuiteResult
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

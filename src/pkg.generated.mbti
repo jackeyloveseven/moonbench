@@ -1,0 +1,930 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "chengyanli/moonbench/src"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn array_sort_model() -> BenchmarkModel
+
+pub fn attention_model() -> BenchmarkModel
+
+pub fn benchmark_model_catalog_markdown() -> String
+
+pub fn benchmark_model_for_name(String) -> BenchmarkModel
+
+pub fn bytes_model() -> BenchmarkModel
+
+pub fn codec_model() -> BenchmarkModel
+
+pub fn collection_lookup_model() -> BenchmarkModel
+
+pub fn custom_model() -> BenchmarkModel
+
+pub fn default_benchmark_models() -> Array[BenchmarkModel]
+
+pub fn default_benchmark_targets() -> Array[String]
+
+pub fn default_smoke_suite() -> SuiteResult
+
+pub fn graph_model() -> BenchmarkModel
+
+pub fn hashing_model() -> BenchmarkModel
+
+pub fn memory_model() -> BenchmarkModel
+
+pub fn nn_activation_model() -> BenchmarkModel
+
+pub fn numeric_model() -> BenchmarkModel
+
+pub fn parser_model() -> BenchmarkModel
+
+pub fn string_scan_model() -> BenchmarkModel
+
+pub fn tensor_matmul_model() -> BenchmarkModel
+
+// Errors
+
+// Types and methods
+pub struct BaselineEntry {
+  name : String
+  snapshot : BenchmarkSnapshot
+  assessment : BenchmarkAssessment
+}
+pub fn BaselineEntry::assessment(Self) -> BenchmarkAssessment
+pub fn BaselineEntry::has_outliers(Self) -> Bool
+pub fn BaselineEntry::is_stable(Self) -> Bool
+pub fn BaselineEntry::name(Self) -> String
+pub fn BaselineEntry::new(BenchmarkSnapshot, BenchmarkAssessment) -> Self
+pub fn BaselineEntry::render_json(Self) -> String
+pub fn BaselineEntry::snapshot(Self) -> BenchmarkSnapshot
+pub fn BaselineEntry::summary(Self) -> String
+
+pub struct BaselineManifest {
+  run_id : String
+  label : String
+  suite_name : String
+  gate_summary : String
+  entries : Array[BaselineEntry]
+}
+pub fn BaselineManifest::add_entry(Self, BaselineEntry) -> Self
+pub fn BaselineManifest::contains(Self, String) -> Bool
+pub fn BaselineManifest::entries(Self) -> Array[BaselineEntry]
+pub fn BaselineManifest::fastest_entry(Self) -> BaselineEntry
+pub fn BaselineManifest::find_index(Self, String) -> Int
+pub fn BaselineManifest::from_artifact(BenchmarkArtifact) -> Self
+pub fn BaselineManifest::from_suite(String, String, SuiteResult) -> Self
+pub fn BaselineManifest::gate_summary(Self) -> String
+pub fn BaselineManifest::get(Self, Int) -> BaselineEntry
+pub fn BaselineManifest::label(Self) -> String
+pub fn BaselineManifest::len(Self) -> Int
+pub fn BaselineManifest::new(String, String, String) -> Self
+pub fn BaselineManifest::outlier_count(Self) -> Int
+pub fn BaselineManifest::render_json(Self) -> String
+pub fn BaselineManifest::render_markdown(Self) -> String
+pub fn BaselineManifest::run_id(Self) -> String
+pub fn BaselineManifest::slowest_entry(Self) -> BaselineEntry
+pub fn BaselineManifest::stable_count(Self) -> Int
+pub fn BaselineManifest::suite_name(Self) -> String
+pub fn BaselineManifest::summary(Self) -> String
+pub fn BaselineManifest::with_gate_summary(Self, String) -> Self
+
+pub struct BenchmarkArtifact {
+  run_id : String
+  label : String
+  suite : SuiteResult
+  assessment : SuiteAssessment
+  gate : GateReport
+}
+pub fn BenchmarkArtifact::assessment(Self) -> SuiteAssessment
+pub fn BenchmarkArtifact::from_suite(String, String, SuiteResult) -> Self
+pub fn BenchmarkArtifact::gate(Self) -> GateReport
+pub fn BenchmarkArtifact::historical_run(Self) -> HistoricalRun
+pub fn BenchmarkArtifact::label(Self) -> String
+pub fn BenchmarkArtifact::manifest(Self) -> String
+pub fn BenchmarkArtifact::new(String, String, SuiteResult, GateReport) -> Self
+pub fn BenchmarkArtifact::render_csv(Self) -> String
+pub fn BenchmarkArtifact::render_json(Self) -> String
+pub fn BenchmarkArtifact::render_markdown(Self) -> String
+pub fn BenchmarkArtifact::run_id(Self) -> String
+pub fn BenchmarkArtifact::suite(Self) -> SuiteResult
+
+pub struct BenchmarkAssessment {
+  name : String
+  model : BenchmarkModel
+  stats : Stats
+  outliers : OutlierSummary
+  grade : StabilityGrade
+  reason : String
+}
+pub fn BenchmarkAssessment::from_result(BenchmarkResult) -> Self
+pub fn BenchmarkAssessment::grade(Self) -> StabilityGrade
+pub fn BenchmarkAssessment::has_outliers(Self) -> Bool
+pub fn BenchmarkAssessment::is_noisy(Self) -> Bool
+pub fn BenchmarkAssessment::model(Self) -> BenchmarkModel
+pub fn BenchmarkAssessment::name(Self) -> String
+pub fn BenchmarkAssessment::outliers(Self) -> OutlierSummary
+pub fn BenchmarkAssessment::reason(Self) -> String
+pub fn BenchmarkAssessment::stats(Self) -> Stats
+pub fn BenchmarkAssessment::summary(Self) -> String
+
+pub struct BenchmarkCase {
+  name : String
+  config : BenchmarkConfig
+}
+pub fn BenchmarkCase::config(Self) -> BenchmarkConfig
+pub fn BenchmarkCase::name(Self) -> String
+pub fn BenchmarkCase::new(String) -> Self
+pub fn BenchmarkCase::with_config(Self, BenchmarkConfig) -> Self
+pub fn BenchmarkCase::with_parameters(Self, ParameterSet) -> Self
+
+pub struct BenchmarkConfig {
+  warmup_runs : Int
+  measure_runs : Int
+  noise_threshold : Double
+  output_unit : DurationUnit
+  trim_extremes : Bool
+}
+pub fn BenchmarkConfig::default() -> Self
+pub fn BenchmarkConfig::describe(Self) -> String
+pub fn BenchmarkConfig::measure_runs(Self) -> Int
+pub fn BenchmarkConfig::noise_threshold(Self) -> Double
+pub fn BenchmarkConfig::output_unit(Self) -> DurationUnit
+pub fn BenchmarkConfig::sanitize(Self) -> Self
+pub fn BenchmarkConfig::trim_extremes(Self) -> Bool
+pub fn BenchmarkConfig::warmup_runs(Self) -> Int
+pub fn BenchmarkConfig::with_measure_runs(Self, Int) -> Self
+pub fn BenchmarkConfig::with_noise_threshold(Self, Double) -> Self
+pub fn BenchmarkConfig::with_output_unit(Self, DurationUnit) -> Self
+pub fn BenchmarkConfig::with_trim_extremes(Self, Bool) -> Self
+pub fn BenchmarkConfig::with_warmup_runs(Self, Int) -> Self
+
+pub struct BenchmarkLifecycle {
+  setup_suite : () -> Unit
+  teardown_suite : () -> Unit
+  setup_case : (String) -> Unit
+  teardown_case : (String) -> Unit
+  before_measure : (String, Int) -> Unit
+  after_measure : (String, Int, Duration) -> Unit
+}
+pub fn BenchmarkLifecycle::noop() -> Self
+pub fn BenchmarkLifecycle::run_after_measure(Self, String, Int, Duration) -> Unit
+pub fn BenchmarkLifecycle::run_before_measure(Self, String, Int) -> Unit
+pub fn BenchmarkLifecycle::run_setup_case(Self, String) -> Unit
+pub fn BenchmarkLifecycle::run_setup_suite(Self) -> Unit
+pub fn BenchmarkLifecycle::run_teardown_case(Self, String) -> Unit
+pub fn BenchmarkLifecycle::run_teardown_suite(Self) -> Unit
+pub fn BenchmarkLifecycle::with_after_measure(Self, (String, Int, Duration) -> Unit) -> Self
+pub fn BenchmarkLifecycle::with_before_measure(Self, (String, Int) -> Unit) -> Self
+pub fn BenchmarkLifecycle::with_setup_case(Self, (String) -> Unit) -> Self
+pub fn BenchmarkLifecycle::with_setup_suite(Self, () -> Unit) -> Self
+pub fn BenchmarkLifecycle::with_teardown_case(Self, (String) -> Unit) -> Self
+pub fn BenchmarkLifecycle::with_teardown_suite(Self, () -> Unit) -> Self
+
+pub struct BenchmarkModel {
+  id : String
+  title : String
+  description : String
+  default_case : String
+}
+pub fn BenchmarkModel::default_case(Self) -> String
+pub fn BenchmarkModel::description(Self) -> String
+pub fn BenchmarkModel::id(Self) -> String
+pub fn BenchmarkModel::label(Self) -> String
+pub fn BenchmarkModel::new(String, String, String, String) -> Self
+pub fn BenchmarkModel::title(Self) -> String
+
+pub struct BenchmarkPlanCase {
+  name : String
+  model : BenchmarkModel
+  batch_size : Int
+}
+pub fn BenchmarkPlanCase::batch_size(Self) -> Int
+pub fn BenchmarkPlanCase::estimated_invocations(Self, BenchmarkConfig) -> Int
+pub fn BenchmarkPlanCase::from_model(BenchmarkModel) -> Self
+pub fn BenchmarkPlanCase::model(Self) -> BenchmarkModel
+pub fn BenchmarkPlanCase::name(Self) -> String
+pub fn BenchmarkPlanCase::new(String, BenchmarkModel) -> Self
+pub fn BenchmarkPlanCase::summary(Self, BenchmarkConfig) -> String
+pub fn BenchmarkPlanCase::with_batch_size(Self, Int) -> Self
+
+pub struct BenchmarkResult {
+  name : String
+  config : BenchmarkConfig
+  raw_samples : Samples
+  measured_samples : Samples
+  stats : Stats
+}
+pub fn BenchmarkResult::config(Self) -> BenchmarkConfig
+pub fn BenchmarkResult::from_samples(String, Samples, BenchmarkConfig) -> Self
+pub fn BenchmarkResult::name(Self) -> String
+pub fn BenchmarkResult::raw_samples(Self) -> Samples
+pub fn BenchmarkResult::samples(Self) -> Samples
+pub fn BenchmarkResult::stats(Self) -> Stats
+pub fn BenchmarkResult::to_line(Self) -> String
+
+pub struct BenchmarkRunPlan {
+  name : String
+  profile : BenchmarkRunProfile
+  config : BenchmarkConfig
+  calibration_policy : CalibrationPolicy
+  cases : Array[BenchmarkPlanCase]
+}
+pub fn BenchmarkRunPlan::add_case(Self, BenchmarkPlanCase) -> Self
+pub fn BenchmarkRunPlan::calibration_policy(Self) -> CalibrationPolicy
+pub fn BenchmarkRunPlan::cases(Self) -> Array[BenchmarkPlanCase]
+pub fn BenchmarkRunPlan::config(Self) -> BenchmarkConfig
+pub fn BenchmarkRunPlan::default_smoke() -> Self
+pub fn BenchmarkRunPlan::estimated_invocations(Self) -> Int
+pub fn BenchmarkRunPlan::find_index(Self, String) -> Int
+pub fn BenchmarkRunPlan::get(Self, Int) -> BenchmarkPlanCase
+pub fn BenchmarkRunPlan::has_duplicate_names(Self) -> Bool
+pub fn BenchmarkRunPlan::len(Self) -> Int
+pub fn BenchmarkRunPlan::name(Self) -> String
+pub fn BenchmarkRunPlan::new(String, BenchmarkRunProfile) -> Self
+pub fn BenchmarkRunPlan::profile(Self) -> BenchmarkRunProfile
+pub fn BenchmarkRunPlan::profile_label(Self) -> String
+pub fn BenchmarkRunPlan::render_markdown(Self) -> String
+pub fn BenchmarkRunPlan::summary(Self) -> String
+pub fn BenchmarkRunPlan::validate(Self) -> String
+pub fn BenchmarkRunPlan::with_calibration_policy(Self, CalibrationPolicy) -> Self
+pub fn BenchmarkRunPlan::with_config(Self, BenchmarkConfig) -> Self
+
+pub enum BenchmarkRunProfile {
+  SmokeProfile
+  CiProfile
+  ReleaseProfile
+} derive(Eq, @debug.Debug)
+
+pub struct BenchmarkRunner {
+  name : String
+  config : BenchmarkConfig
+  tasks : Array[BenchmarkTask]
+}
+pub fn BenchmarkRunner::add(Self, String, () -> Unit) -> Self
+pub fn BenchmarkRunner::add_task(Self, BenchmarkTask) -> Self
+pub fn BenchmarkRunner::calibrate(Self, MeasurementBackend, CalibrationPolicy) -> CalibrationSuiteReport
+pub fn BenchmarkRunner::config(Self) -> BenchmarkConfig
+pub fn BenchmarkRunner::len(Self) -> Int
+pub fn BenchmarkRunner::name(Self) -> String
+pub fn BenchmarkRunner::new(String) -> Self
+pub fn BenchmarkRunner::run(Self) -> SuiteResult
+pub fn BenchmarkRunner::run_calibrated(Self, MeasurementBackend, CalibrationPolicy) -> SuiteResult
+pub fn BenchmarkRunner::run_fixed(Self, Duration) -> SuiteResult
+pub fn BenchmarkRunner::run_with_backend(Self, MeasurementBackend) -> SuiteResult
+pub fn BenchmarkRunner::run_with_lifecycle(Self, MeasurementBackend, BenchmarkLifecycle) -> LifecycleRunSummary
+pub fn BenchmarkRunner::task(Self, Int) -> BenchmarkTask
+pub fn BenchmarkRunner::with_calibrated_batches(Self, MeasurementBackend, CalibrationPolicy) -> Self
+pub fn BenchmarkRunner::with_config(Self, BenchmarkConfig) -> Self
+
+pub struct BenchmarkSnapshot {
+  name : String
+  runs : Int
+  mean : Duration
+  median : Duration
+  p95 : Duration
+  min : Duration
+  max : Duration
+  relative_stddev : Double
+}
+pub fn BenchmarkSnapshot::change_percent_against(Self, Self) -> Double
+pub fn BenchmarkSnapshot::from_stats(Stats) -> Self
+pub fn BenchmarkSnapshot::is_empty(Self) -> Bool
+pub fn BenchmarkSnapshot::max(Self) -> Duration
+pub fn BenchmarkSnapshot::mean(Self) -> Duration
+pub fn BenchmarkSnapshot::median(Self) -> Duration
+pub fn BenchmarkSnapshot::min(Self) -> Duration
+pub fn BenchmarkSnapshot::name(Self) -> String
+pub fn BenchmarkSnapshot::p95(Self) -> Duration
+pub fn BenchmarkSnapshot::relative_stddev(Self) -> Double
+pub fn BenchmarkSnapshot::render_json(Self) -> String
+pub fn BenchmarkSnapshot::runs(Self) -> Int
+pub fn BenchmarkSnapshot::slower_than(Self, Self) -> Bool
+pub fn BenchmarkSnapshot::spread(Self) -> Duration
+pub fn BenchmarkSnapshot::summary(Self) -> String
+
+pub struct BenchmarkSuite {
+  name : String
+  config : BenchmarkConfig
+  results : Array[BenchmarkResult]
+}
+pub fn BenchmarkSuite::add_result(Self, BenchmarkResult) -> Self
+pub fn BenchmarkSuite::add_samples(Self, Samples) -> Self
+pub fn BenchmarkSuite::config(Self) -> BenchmarkConfig
+pub fn BenchmarkSuite::finish(Self) -> SuiteResult
+pub fn BenchmarkSuite::len(Self) -> Int
+pub fn BenchmarkSuite::name(Self) -> String
+pub fn BenchmarkSuite::new(String) -> Self
+pub fn BenchmarkSuite::with_config(Self, BenchmarkConfig) -> Self
+
+pub struct BenchmarkTask {
+  name : String
+  batch_size : Int
+  workload : () -> Unit
+}
+pub fn BenchmarkTask::batch_size(Self) -> Int
+pub fn BenchmarkTask::calibrate(Self, MeasurementBackend, CalibrationPolicy) -> CalibrationReport
+pub fn BenchmarkTask::name(Self) -> String
+pub fn BenchmarkTask::new(String, () -> Unit) -> Self
+pub fn BenchmarkTask::run_batch(Self) -> Unit
+pub fn BenchmarkTask::run_once(Self) -> Unit
+pub fn BenchmarkTask::with_batch_size(Self, Int) -> Self
+pub fn BenchmarkTask::with_calibrated_batch_size(Self, MeasurementBackend, CalibrationPolicy) -> CalibratedTask
+
+pub struct BenchmarkWorkflow {
+  run_id : String
+  label : String
+  runner : BenchmarkRunner
+  backend : MeasurementBackend
+  gate_policy : GatePolicy
+}
+pub fn BenchmarkWorkflow::backend(Self) -> MeasurementBackend
+pub fn BenchmarkWorkflow::gate_policy(Self) -> GatePolicy
+pub fn BenchmarkWorkflow::label(Self) -> String
+pub fn BenchmarkWorkflow::new(String, String, BenchmarkRunner) -> Self
+pub fn BenchmarkWorkflow::run(Self) -> BenchmarkWorkflowResult
+pub fn BenchmarkWorkflow::run_id(Self) -> String
+pub fn BenchmarkWorkflow::runner(Self) -> BenchmarkRunner
+pub fn BenchmarkWorkflow::with_backend(Self, MeasurementBackend) -> Self
+pub fn BenchmarkWorkflow::with_gate_policy(Self, GatePolicy) -> Self
+
+pub struct BenchmarkWorkflowResult {
+  artifact : BenchmarkArtifact
+  assessment_gate : GateReport
+}
+pub fn BenchmarkWorkflowResult::artifact(Self) -> BenchmarkArtifact
+pub fn BenchmarkWorkflowResult::assessment_gate(Self) -> GateReport
+pub fn BenchmarkWorkflowResult::compare_against(Self, BenchmarkArtifact, GatePolicy) -> GateReport
+pub fn BenchmarkWorkflowResult::summary(Self) -> String
+
+pub struct CalibratedTask {
+  task : BenchmarkTask
+  report : CalibrationReport
+}
+pub fn CalibratedTask::report(Self) -> CalibrationReport
+pub fn CalibratedTask::task(Self) -> BenchmarkTask
+
+pub struct CalibrationPolicy {
+  min_batch_size : Int
+  max_batch_size : Int
+  target_elapsed : Duration
+  max_probe_runs : Int
+  growth_factor : Int
+}
+pub fn CalibrationPolicy::default() -> Self
+pub fn CalibrationPolicy::describe(Self) -> String
+pub fn CalibrationPolicy::growth_factor(Self) -> Int
+pub fn CalibrationPolicy::max_batch_size(Self) -> Int
+pub fn CalibrationPolicy::max_probe_runs(Self) -> Int
+pub fn CalibrationPolicy::min_batch_size(Self) -> Int
+pub fn CalibrationPolicy::new(Int, Int, Duration) -> Self
+pub fn CalibrationPolicy::sanitize(Self) -> Self
+pub fn CalibrationPolicy::target_elapsed(Self) -> Duration
+pub fn CalibrationPolicy::with_growth_factor(Self, Int) -> Self
+pub fn CalibrationPolicy::with_max_batch_size(Self, Int) -> Self
+pub fn CalibrationPolicy::with_max_probe_runs(Self, Int) -> Self
+pub fn CalibrationPolicy::with_min_batch_size(Self, Int) -> Self
+pub fn CalibrationPolicy::with_target_elapsed(Self, Duration) -> Self
+
+pub struct CalibrationProbe {
+  batch_size : Int
+  elapsed : Duration
+  per_iteration : Duration
+}
+pub fn CalibrationProbe::batch_size(Self) -> Int
+pub fn CalibrationProbe::elapsed(Self) -> Duration
+pub fn CalibrationProbe::new(Int, Duration) -> Self
+pub fn CalibrationProbe::per_iteration(Self) -> Duration
+pub fn CalibrationProbe::summary(Self) -> String
+
+pub struct CalibrationReport {
+  task_name : String
+  selected_batch_size : Int
+  target_elapsed : Duration
+  probes : Array[CalibrationProbe]
+  reached_target : Bool
+}
+pub fn CalibrationReport::get(Self, Int) -> CalibrationProbe
+pub fn CalibrationReport::last_probe(Self) -> CalibrationProbe
+pub fn CalibrationReport::len(Self) -> Int
+pub fn CalibrationReport::new(String, Int, Duration, Array[CalibrationProbe]) -> Self
+pub fn CalibrationReport::probes(Self) -> Array[CalibrationProbe]
+pub fn CalibrationReport::reached_target(Self) -> Bool
+pub fn CalibrationReport::render_markdown(Self) -> String
+pub fn CalibrationReport::selected_batch_size(Self) -> Int
+pub fn CalibrationReport::summary(Self) -> String
+pub fn CalibrationReport::target_elapsed(Self) -> Duration
+pub fn CalibrationReport::task_name(Self) -> String
+
+pub struct CalibrationSuiteReport {
+  runner_name : String
+  reports : Array[CalibrationReport]
+}
+pub fn CalibrationSuiteReport::get(Self, Int) -> CalibrationReport
+pub fn CalibrationSuiteReport::len(Self) -> Int
+pub fn CalibrationSuiteReport::render_markdown(Self) -> String
+pub fn CalibrationSuiteReport::reports(Self) -> Array[CalibrationReport]
+pub fn CalibrationSuiteReport::runner_name(Self) -> String
+
+pub struct Comparison {
+  baseline : Stats
+  candidate : Stats
+  ratio : Double
+  change_percent : Double
+  kind : ComparisonKind
+}
+pub fn Comparison::baseline(Self) -> Stats
+pub fn Comparison::candidate(Self) -> Stats
+pub fn Comparison::change_percent(Self) -> Double
+pub fn Comparison::is_regression(Self) -> Bool
+pub fn Comparison::kind(Self) -> ComparisonKind
+pub fn Comparison::new(Stats, Stats, Double) -> Self
+pub fn Comparison::ratio(Self) -> Double
+pub fn Comparison::summary(Self) -> String
+
+pub enum ComparisonKind {
+  Faster
+  Slower
+  Similar
+} derive(Eq, @debug.Debug)
+
+pub struct Duration {
+  nanos : Int64
+}
+pub fn Duration::abs_diff(Self, Self) -> Self
+pub fn Duration::divide_by(Self, Int) -> Self
+pub fn Duration::format(Self) -> String
+pub fn Duration::format_as(Self, DurationUnit) -> String
+pub fn Duration::from_micros(Int64) -> Self
+pub fn Duration::from_millis(Int64) -> Self
+pub fn Duration::from_nanos(Int64) -> Self
+pub fn Duration::from_secs(Int64) -> Self
+pub fn Duration::is_zero(Self) -> Bool
+pub fn Duration::micros(Self) -> Double
+pub fn Duration::millis(Self) -> Double
+pub fn Duration::minus(Self, Self) -> Self
+pub fn Duration::nanos(Self) -> Int64
+pub fn Duration::plus(Self, Self) -> Self
+pub fn Duration::scale(Self, Double) -> Self
+pub fn Duration::secs(Self) -> Double
+pub fn Duration::zero() -> Self
+
+pub enum DurationUnit {
+  Nanoseconds
+  Microseconds
+  Milliseconds
+  Seconds
+} derive(Eq, @debug.Debug)
+
+pub struct GatePolicy {
+  max_noisy : Int
+  max_outliers : Int
+  regression_rule : RegressionRule
+}
+pub fn GatePolicy::check_assessment(Self, SuiteAssessment) -> GateReport
+pub fn GatePolicy::check_history(Self, HistoryComparison) -> GateReport
+pub fn GatePolicy::default() -> Self
+pub fn GatePolicy::max_noisy(Self) -> Int
+pub fn GatePolicy::max_outliers(Self) -> Int
+pub fn GatePolicy::new(Int, Int, RegressionRule) -> Self
+pub fn GatePolicy::regression_rule(Self) -> RegressionRule
+
+pub struct GateReport {
+  status : GateStatus
+  message : String
+  noisy_count : Int
+  outlier_count : Int
+  regression_count : Int
+}
+pub fn GateReport::message(Self) -> String
+pub fn GateReport::noisy_count(Self) -> Int
+pub fn GateReport::outlier_count(Self) -> Int
+pub fn GateReport::passed(Self) -> Bool
+pub fn GateReport::regression_count(Self) -> Int
+pub fn GateReport::status(Self) -> GateStatus
+pub fn GateReport::summary(Self) -> String
+
+pub enum GateStatus {
+  GatePass
+  GateWarn
+  GateFail
+} derive(Eq, @debug.Debug)
+
+pub struct HistoricalRun {
+  id : String
+  label : String
+  results : Array[Stats]
+}
+pub fn HistoricalRun::add(Self, Stats) -> Self
+pub fn HistoricalRun::compare_against(Self, Self, Double) -> HistoryComparison
+pub fn HistoricalRun::find_index(Self, String) -> Int
+pub fn HistoricalRun::from_suite(String, String, SuiteResult) -> Self
+pub fn HistoricalRun::get(Self, Int) -> Stats
+pub fn HistoricalRun::id(Self) -> String
+pub fn HistoricalRun::label(Self) -> String
+pub fn HistoricalRun::len(Self) -> Int
+pub fn HistoricalRun::new(String, String) -> Self
+pub fn HistoricalRun::results(Self) -> Array[Stats]
+
+pub struct HistoryComparison {
+  baseline_id : String
+  candidate_id : String
+  comparisons : Array[Comparison]
+}
+pub fn HistoryComparison::baseline_id(Self) -> String
+pub fn HistoryComparison::candidate_id(Self) -> String
+pub fn HistoryComparison::comparisons(Self) -> Array[Comparison]
+pub fn HistoryComparison::get(Self, Int) -> Comparison
+pub fn HistoryComparison::len(Self) -> Int
+pub fn HistoryComparison::regression_count(Self) -> Int
+pub fn HistoryComparison::summary(Self) -> String
+
+pub struct LifecycleEvent {
+  name : String
+  case_name : String
+  run_index : Int
+  elapsed : Duration
+}
+pub fn LifecycleEvent::case_name(Self) -> String
+pub fn LifecycleEvent::elapsed(Self) -> Duration
+pub fn LifecycleEvent::name(Self) -> String
+pub fn LifecycleEvent::new(String, String, Int, Duration) -> Self
+pub fn LifecycleEvent::run_index(Self) -> Int
+pub fn LifecycleEvent::summary(Self) -> String
+
+pub struct LifecycleLog {
+  events : Array[LifecycleEvent]
+}
+pub fn LifecycleLog::add(Self, LifecycleEvent) -> Self
+pub fn LifecycleLog::count_named(Self, String) -> Int
+pub fn LifecycleLog::events(Self) -> Array[LifecycleEvent]
+pub fn LifecycleLog::get(Self, Int) -> LifecycleEvent
+pub fn LifecycleLog::len(Self) -> Int
+pub fn LifecycleLog::new() -> Self
+pub fn LifecycleLog::render_text(Self) -> String
+
+pub struct LifecycleRunSummary {
+  suite : SuiteResult
+  log : LifecycleLog
+}
+pub fn LifecycleRunSummary::log(Self) -> LifecycleLog
+pub fn LifecycleRunSummary::render_markdown(Self) -> String
+pub fn LifecycleRunSummary::suite(Self) -> SuiteResult
+pub fn LifecycleRunSummary::summary(Self) -> String
+
+pub struct MeasurementBackend {
+  name : String
+  measure_once : (() -> Unit) -> Duration
+}
+pub fn MeasurementBackend::fixed(Duration) -> Self
+pub fn MeasurementBackend::measure(Self, () -> Unit) -> Duration
+pub fn MeasurementBackend::monotonic() -> Self
+pub fn MeasurementBackend::name(Self) -> String
+pub fn MeasurementBackend::new(String, (() -> Unit) -> Duration) -> Self
+pub fn MeasurementBackend::scripted(Array[Duration]) -> Self
+
+pub struct Metric {
+  name : String
+  value : Double
+  unit : String
+}
+pub fn Metric::format(Self) -> String
+pub fn Metric::name(Self) -> String
+pub fn Metric::new(String, Double, String) -> Self
+pub fn Metric::unit(Self) -> String
+pub fn Metric::value(Self) -> Double
+
+pub struct MetricSet {
+  metrics : Array[Metric]
+}
+pub fn MetricSet::add(Self, Metric) -> Self
+pub fn MetricSet::get(Self, Int) -> Metric
+pub fn MetricSet::len(Self) -> Int
+pub fn MetricSet::metrics(Self) -> Array[Metric]
+pub fn MetricSet::new() -> Self
+pub fn MetricSet::render(Self) -> String
+
+pub enum OutlierClass {
+  LowSevere
+  LowMild
+  Typical
+  HighMild
+  HighSevere
+} derive(Eq, @debug.Debug)
+
+pub struct OutlierSummary {
+  name : String
+  count : Int
+  low_severe : Int
+  low_mild : Int
+  typical : Int
+  high_mild : Int
+  high_severe : Int
+  q1 : Duration
+  q3 : Duration
+  iqr : Duration
+  lower_mild_fence : Duration
+  upper_mild_fence : Duration
+  lower_severe_fence : Duration
+  upper_severe_fence : Duration
+}
+pub fn OutlierSummary::count(Self) -> Int
+pub fn OutlierSummary::has_outliers(Self) -> Bool
+pub fn OutlierSummary::high_mild(Self) -> Int
+pub fn OutlierSummary::high_severe(Self) -> Int
+pub fn OutlierSummary::iqr(Self) -> Duration
+pub fn OutlierSummary::low_mild(Self) -> Int
+pub fn OutlierSummary::low_severe(Self) -> Int
+pub fn OutlierSummary::lower_mild_fence(Self) -> Duration
+pub fn OutlierSummary::lower_severe_fence(Self) -> Duration
+pub fn OutlierSummary::name(Self) -> String
+pub fn OutlierSummary::outlier_count(Self) -> Int
+pub fn OutlierSummary::q1(Self) -> Duration
+pub fn OutlierSummary::q3(Self) -> Duration
+pub fn OutlierSummary::summary(Self) -> String
+pub fn OutlierSummary::typical(Self) -> Int
+pub fn OutlierSummary::upper_mild_fence(Self) -> Duration
+pub fn OutlierSummary::upper_severe_fence(Self) -> Duration
+
+pub struct Parameter {
+  name : String
+  value : String
+}
+pub fn Parameter::label(Self) -> String
+pub fn Parameter::name(Self) -> String
+pub fn Parameter::new(String, String) -> Self
+pub fn Parameter::value(Self) -> String
+
+pub struct ParameterSet {
+  parameters : Array[Parameter]
+}
+pub fn ParameterSet::add(Self, Parameter) -> Self
+pub fn ParameterSet::get(Self, Int) -> Parameter
+pub fn ParameterSet::label(Self) -> String
+pub fn ParameterSet::len(Self) -> Int
+pub fn ParameterSet::new() -> Self
+pub fn ParameterSet::parameters(Self) -> Array[Parameter]
+
+pub struct ParameterSweep {
+  name : String
+  values : Array[String]
+}
+pub fn ParameterSweep::add_value(Self, String) -> Self
+pub fn ParameterSweep::get(Self, Int) -> ParameterSet
+pub fn ParameterSweep::labels(Self) -> Array[String]
+pub fn ParameterSweep::len(Self) -> Int
+pub fn ParameterSweep::name(Self) -> String
+pub fn ParameterSweep::new(String) -> Self
+
+pub struct RegressionReport {
+  status : RegressionStatus
+  comparison : Comparison
+  rule : RegressionRule
+  message : String
+}
+pub fn RegressionReport::comparison(Self) -> Comparison
+pub fn RegressionReport::message(Self) -> String
+pub fn RegressionReport::passed(Self) -> Bool
+pub fn RegressionReport::rule(Self) -> RegressionRule
+pub fn RegressionReport::status(Self) -> RegressionStatus
+
+pub struct RegressionRule {
+  warning_slowdown_percent : Double
+  max_slowdown_percent : Double
+}
+pub fn RegressionRule::check(Self, Comparison) -> RegressionReport
+pub fn RegressionRule::max_slowdown_percent(Self) -> Double
+pub fn RegressionRule::new(Double) -> Self
+pub fn RegressionRule::warning_slowdown_percent(Self) -> Double
+pub fn RegressionRule::with_warning(Self, Double) -> Self
+
+pub enum RegressionStatus {
+  Pass
+  Warn
+  Fail
+} derive(Eq, @debug.Debug)
+
+pub struct Report {
+  title : String
+  sections : Array[Stats]
+}
+pub fn Report::add(Self, Stats) -> Self
+pub fn Report::len(Self) -> Int
+pub fn Report::new(String) -> Self
+pub fn Report::render(Self) -> String
+pub fn Report::render_as(Self, ReportFormat) -> String
+pub fn Report::render_csv(Self) -> String
+pub fn Report::render_json(Self) -> String
+pub fn Report::render_markdown(Self) -> String
+pub fn Report::render_text(Self) -> String
+pub fn Report::render_web_json(Self) -> String
+
+pub enum ReportFormat {
+  Markdown
+  Csv
+  Text
+  Json
+} derive(Eq, @debug.Debug)
+
+pub struct Samples {
+  name : String
+  values : Array[Duration]
+}
+pub fn Samples::add(Self, Duration) -> Self
+pub fn Samples::add_nanos(Self, Int64) -> Self
+pub fn Samples::get(Self, Int) -> Duration
+pub fn Samples::is_empty(Self) -> Bool
+pub fn Samples::len(Self) -> Int
+pub fn Samples::name(Self) -> String
+pub fn Samples::new(String) -> Self
+pub fn Samples::outliers(Self) -> OutlierSummary
+pub fn Samples::percentile(Self, Double) -> Duration
+pub fn Samples::stats(Self) -> Stats
+pub fn Samples::values(Self) -> Array[Duration]
+pub fn Samples::without_min_max(Self) -> Self
+
+pub enum StabilityGrade {
+  Stable
+  Watch
+  Noisy
+} derive(Eq, @debug.Debug)
+
+pub struct Stats {
+  name : String
+  count : Int
+  min : Duration
+  max : Duration
+  mean : Duration
+  median : Duration
+  p90 : Duration
+  p95 : Duration
+  p99 : Duration
+  stddev : Duration
+  variance_nanos : Double
+  mad : Duration
+  relative_stddev : Double
+}
+pub fn Stats::count(Self) -> Int
+pub fn Stats::from_samples(Samples) -> Self
+pub fn Stats::mad(Self) -> Duration
+pub fn Stats::max(Self) -> Duration
+pub fn Stats::mean(Self) -> Duration
+pub fn Stats::median(Self) -> Duration
+pub fn Stats::min(Self) -> Duration
+pub fn Stats::name(Self) -> String
+pub fn Stats::p90(Self) -> Duration
+pub fn Stats::p95(Self) -> Duration
+pub fn Stats::p99(Self) -> Duration
+pub fn Stats::relative_stddev(Self) -> Double
+pub fn Stats::stddev(Self) -> Duration
+pub fn Stats::throughput(Self, Int64, Int64) -> Throughput
+pub fn Stats::to_line(Self) -> String
+pub fn Stats::variance_nanos(Self) -> Double
+
+pub struct Stopwatch {
+  state : StopwatchState
+  started_at : Int64
+  last_tick : Int64
+  elapsed : Duration
+}
+pub fn Stopwatch::elapsed(Self) -> Duration
+pub fn Stopwatch::new() -> Self
+pub fn Stopwatch::pause(Self, Int64) -> Self
+pub fn Stopwatch::resume_at(Self, Int64) -> Self
+pub fn Stopwatch::start(Int64) -> Self
+pub fn Stopwatch::state(Self) -> StopwatchState
+pub fn Stopwatch::stop(Self, Int64) -> Self
+pub fn Stopwatch::tick(Self, Int64) -> Self
+
+pub enum StopwatchState {
+  Ready
+  Running
+  Paused
+  Stopped
+} derive(Eq, @debug.Debug)
+
+pub struct SuiteAssessment {
+  suite_name : String
+  items : Array[BenchmarkAssessment]
+}
+pub fn SuiteAssessment::from_suite(SuiteResult) -> Self
+pub fn SuiteAssessment::get(Self, Int) -> BenchmarkAssessment
+pub fn SuiteAssessment::items(Self) -> Array[BenchmarkAssessment]
+pub fn SuiteAssessment::len(Self) -> Int
+pub fn SuiteAssessment::noisy_count(Self) -> Int
+pub fn SuiteAssessment::outlier_count(Self) -> Int
+pub fn SuiteAssessment::render_markdown(Self) -> String
+pub fn SuiteAssessment::suite_name(Self) -> String
+pub fn SuiteAssessment::summary(Self) -> String
+pub fn SuiteAssessment::watch_count(Self) -> Int
+
+pub struct SuiteResult {
+  name : String
+  config : BenchmarkConfig
+  results : Array[BenchmarkResult]
+}
+pub fn SuiteResult::config(Self) -> BenchmarkConfig
+pub fn SuiteResult::get(Self, Int) -> BenchmarkResult
+pub fn SuiteResult::len(Self) -> Int
+pub fn SuiteResult::name(Self) -> String
+pub fn SuiteResult::render_web_json(Self) -> String
+pub fn SuiteResult::results(Self) -> Array[BenchmarkResult]
+pub fn SuiteResult::stats(Self) -> Array[Stats]
+pub fn SuiteResult::to_report(Self) -> Report
+
+pub struct Throughput {
+  items : Int64
+  bytes : Int64
+  elapsed : Duration
+}
+pub fn Throughput::bytes(Self) -> Int64
+pub fn Throughput::bytes_per_second(Self) -> Double
+pub fn Throughput::elapsed(Self) -> Duration
+pub fn Throughput::items(Self) -> Int64
+pub fn Throughput::items_per_second(Self) -> Double
+pub fn Throughput::new(Int64, Int64, Duration) -> Self
+pub fn Throughput::to_metrics(Self) -> MetricSet
+
+pub enum TrendDirection {
+  TrendImproved
+  TrendRegressed
+  TrendFlat
+  TrendInsufficient
+} derive(Eq, @debug.Debug)
+
+pub struct TrendPoint {
+  run_id : String
+  label : String
+  snapshot : BenchmarkSnapshot
+}
+pub fn TrendPoint::from_manifest_entry(BaselineManifest, BaselineEntry) -> Self
+pub fn TrendPoint::label(Self) -> String
+pub fn TrendPoint::mean(Self) -> Duration
+pub fn TrendPoint::new(String, String, BenchmarkSnapshot) -> Self
+pub fn TrendPoint::p95(Self) -> Duration
+pub fn TrendPoint::run_id(Self) -> String
+pub fn TrendPoint::snapshot(Self) -> BenchmarkSnapshot
+pub fn TrendPoint::summary(Self) -> String
+
+pub struct TrendReport {
+  series : Array[TrendSeries]
+}
+pub fn TrendReport::add_manifest(Self, BaselineManifest) -> Self
+pub fn TrendReport::add_point(Self, String, TrendPoint) -> Self
+pub fn TrendReport::find_index(Self, String) -> Int
+pub fn TrendReport::from_manifests(Array[BaselineManifest]) -> Self
+pub fn TrendReport::get(Self, Int) -> TrendSeries
+pub fn TrendReport::improvement_count(Self, Double) -> Int
+pub fn TrendReport::len(Self) -> Int
+pub fn TrendReport::new() -> Self
+pub fn TrendReport::regression_count(Self, Double) -> Int
+pub fn TrendReport::render_markdown(Self, Double) -> String
+pub fn TrendReport::series(Self) -> Array[TrendSeries]
+pub fn TrendReport::summary(Self, Double) -> String
+pub fn TrendReport::summary_count(Self, TrendDirection, Double) -> Int
+
+pub struct TrendSeries {
+  benchmark_name : String
+  points : Array[TrendPoint]
+}
+pub fn TrendSeries::add_point(Self, TrendPoint) -> Self
+pub fn TrendSeries::add_snapshot(Self, String, String, BenchmarkSnapshot) -> Self
+pub fn TrendSeries::benchmark_name(Self) -> String
+pub fn TrendSeries::best(Self) -> TrendPoint
+pub fn TrendSeries::direction(Self, Double) -> TrendDirection
+pub fn TrendSeries::first(Self) -> TrendPoint
+pub fn TrendSeries::get(Self, Int) -> TrendPoint
+pub fn TrendSeries::latest(Self) -> TrendPoint
+pub fn TrendSeries::latest_change_percent(Self) -> Double
+pub fn TrendSeries::len(Self) -> Int
+pub fn TrendSeries::mean_of_means(Self) -> Duration
+pub fn TrendSeries::new(String) -> Self
+pub fn TrendSeries::points(Self) -> Array[TrendPoint]
+pub fn TrendSeries::render_markdown(Self, Double) -> String
+pub fn TrendSeries::summary(Self, Double) -> TrendSummary
+pub fn TrendSeries::worst(Self) -> TrendPoint
+
+pub struct TrendSummary {
+  benchmark_name : String
+  direction : TrendDirection
+  first_mean : Duration
+  latest_mean : Duration
+  best_mean : Duration
+  worst_mean : Duration
+  change_percent : Double
+}
+pub fn TrendSummary::benchmark_name(Self) -> String
+pub fn TrendSummary::best_mean(Self) -> Duration
+pub fn TrendSummary::change_percent(Self) -> Double
+pub fn TrendSummary::direction(Self) -> TrendDirection
+pub fn TrendSummary::direction_text(Self) -> String
+pub fn TrendSummary::first_mean(Self) -> Duration
+pub fn TrendSummary::latest_mean(Self) -> Duration
+pub fn TrendSummary::summary(Self) -> String
+pub fn TrendSummary::worst_mean(Self) -> Duration
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+
+env:
+  MOONBIT_VERSION: 0.10.3+16975d007
+  MOONBIT_CORE_VERSION: 0.10.3+16975d007
+
+jobs:
+  moonbit:
+    name: MoonBit (${{ matrix.os }})
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup MoonBit
+        uses: hustcer/setup-moonbit@v1.22
+        with:
+          version: ${{ env.MOONBIT_VERSION }}
+          core-version: ${{ env.MOONBIT_CORE_VERSION }}
+
+      - name: Show MoonBit version
+        run: moon version --all
+
+      - name: Check all targets
+        run: moon check --target all
+
+      - name: Test all targets
+        run: moon test --target all
+
+      - name: Verify formatting and package metadata
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          moon fmt
+          git diff --exit-code
+          moon info
+          git diff --exit-code
+
+  webui:
+    name: Web UI
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check static Web UI JavaScript
+        run: node --check webui/app.js
