@@ -1,6 +1,6 @@
 import {
   "chengyanli/moonbench/src" @bench,
-  "chengyanli/moonbench/algo" @algo,
+  "chengyanli/moonbench/algo",
 }
 
 options(

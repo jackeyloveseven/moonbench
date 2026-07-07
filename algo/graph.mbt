@@ -66,7 +66,7 @@ fn dfs_visit(
   graph : Array[Array[Int]],
   node : Int,
   visited : Array[Bool],
-  order : Array[Int]
+  order : Array[Int],
 ) -> Unit {
   visited[node] = true
   order.push(node)

@@ -40,11 +40,7 @@ pub fn algo_meta_for(name : String) -> AlgoMeta? {
       space_complexity: OLogN,
     })
   } else if name.contains("algo/sort/merge") {
-    Some({
-      category: "sorting",
-      time_complexity: ONLogN,
-      space_complexity: ON,
-    })
+    Some({ category: "sorting", time_complexity: ONLogN, space_complexity: ON })
   } else if name.contains("algo/sort/heap") {
     Some({ category: "sorting", time_complexity: ONLogN, space_complexity: O1 })
   } else if name.contains("algo/search/linear") {
@@ -88,11 +84,7 @@ pub fn algo_meta_for(name : String) -> AlgoMeta? {
   } else if name.contains("algo/numeric/dot") {
     Some({ category: "numeric", time_complexity: ON, space_complexity: O1 })
   } else if name.contains("algo/numeric/matmul") {
-    Some({
-      category: "numeric",
-      time_complexity: ON3,
-      space_complexity: ON2,
-    })
+    Some({ category: "numeric", time_complexity: ON3, space_complexity: ON2 })
   } else {
     None
   }
