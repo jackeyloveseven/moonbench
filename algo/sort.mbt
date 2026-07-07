@@ -132,6 +132,45 @@ pub fn merge_sort(arr : Array[Int]) -> Unit {
 }
 
 ///|
+fn heapify(arr : Array[Int], n : Int, i : Int) -> Unit {
+  let mut largest = i
+  let left = 2 * i + 1
+  let right = 2 * i + 2
+  if left < n && arr[left] > arr[largest] {
+    largest = left
+  }
+  if right < n && arr[right] > arr[largest] {
+    largest = right
+  }
+  if largest != i {
+    swap_ints(arr, i, largest)
+    heapify(arr, n, largest)
+  }
+}
+
+///|
+pub fn heap_sort(arr : Array[Int]) -> Unit {
+  let n = arr.length()
+  let mut i = n / 2 - 1
+  while i >= 0 {
+    heapify(arr, n, i)
+    i = i - 1
+  }
+  let mut j = n - 1
+  while j > 0 {
+    swap_ints(arr, 0, j)
+    heapify(arr, n, j)
+    j = j - 1
+  }
+}
+
+///|
+pub fn bench_heap_sort_10k() -> Unit {
+  let arr = make_int_array(10000)
+  heap_sort(arr)
+}
+
+///|
 pub fn bench_quicksort_10k() -> Unit {
   let arr = make_int_array(10000)
   quicksort(arr)
@@ -153,6 +192,14 @@ pub fn bench_bubble_sort_1k() -> Unit {
 pub fn bench_insertion_sort_1k() -> Unit {
   let arr = make_int_array(1000)
   insertion_sort(arr)
+}
+
+///|
+test "heap sort produces sorted output" {
+  let arr = [5, 3, 8, 1, 9, 2, 7, 4, 6]
+  heap_sort(arr)
+  assert_eq(arr[0], 1)
+  assert_eq(arr[8], 9)
 }
 
 ///|
