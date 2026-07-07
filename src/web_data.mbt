@@ -85,6 +85,21 @@ fn model_web_json(name : String) -> String {
 }
 
 ///|
+fn algo_meta_web_json(name : String) -> String {
+  match algo_meta_for(name) {
+    None => ""
+    Some(meta) =>
+      ", \"algo_meta\": { \"category\": " +
+      json_string(meta.category) +
+      ", \"time_complexity\": " +
+      json_string(meta.time_complexity.label()) +
+      ", \"space_complexity\": " +
+      json_string(meta.space_complexity.label()) +
+      " }"
+  }
+}
+
+///|
 fn result_web_json(result : BenchmarkResult) -> String {
   let outliers = result.samples().outliers()
   "{ " +
@@ -94,6 +109,7 @@ fn result_web_json(result : BenchmarkResult) -> String {
   model_web_json(result.name()) +
   ", \"stats\": " +
   stats_web_json(result.stats()) +
+  algo_meta_web_json(result.name()) +
   ", \"samples_nanos\": " +
   raw_samples_json(result.samples()) +
   ", \"outliers\": { " +
