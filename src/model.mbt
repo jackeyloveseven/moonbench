@@ -141,6 +141,30 @@ pub fn attention_model() -> BenchmarkModel {
 }
 
 ///|
+pub fn algo_sort_model() -> BenchmarkModel {
+  BenchmarkModel::new(
+    "algo-sort", "Algorithm: Sorting", "Bubble, insertion, quicksort, merge sort, and heap sort",
+    "algo/sort/quick/10k",
+  )
+}
+
+///|
+pub fn algo_search_model() -> BenchmarkModel {
+  BenchmarkModel::new(
+    "algo-search", "Algorithm: Search", "Linear search and binary search on integer arrays",
+    "algo/search/binary/100k",
+  )
+}
+
+///|
+pub fn algo_string_model() -> BenchmarkModel {
+  BenchmarkModel::new(
+    "algo-string", "Algorithm: String matching", "Naive substring search and KMP pattern matching",
+    "algo/string/kmp/10k",
+  )
+}
+
+///|
 pub fn custom_model() -> BenchmarkModel {
   BenchmarkModel::new(
     "custom", "Custom workload", "User supplied benchmark case", "custom/workload",
@@ -163,12 +187,21 @@ pub fn default_benchmark_models() -> Array[BenchmarkModel] {
     tensor_matmul_model(),
     nn_activation_model(),
     attention_model(),
+    algo_sort_model(),
+    algo_search_model(),
+    algo_string_model(),
   ]
 }
 
 ///|
 pub fn benchmark_model_for_name(name : String) -> BenchmarkModel {
-  if name.contains("attention/") || name.contains("attention") {
+  if name.contains("algo/sort/") {
+    algo_sort_model()
+  } else if name.contains("algo/search/") {
+    algo_search_model()
+  } else if name.contains("algo/string/") {
+    algo_string_model()
+  } else if name.contains("attention/") || name.contains("attention") {
     attention_model()
   } else if name.contains("tensor/") ||
     name.contains("matmul") ||
@@ -223,7 +256,7 @@ pub fn benchmark_model_catalog_markdown() -> String {
 ///|
 test "default benchmark model catalog is stable" {
   let models = default_benchmark_models()
-  assert_eq(models.length(), 13)
+  assert_eq(models.length(), 16)
   assert_eq(models[0].id(), "array-sort")
   assert_eq(models[10].default_case(), "tensor/matmul/f32-64x64")
   assert_eq(models[11].default_case(), "nn/activation/relu-1m")
