@@ -58,15 +58,15 @@ pub fn string_scan_model() -> BenchmarkModel
 
 pub fn tensor_matmul_model() -> BenchmarkModel
 
+// Errors
+
+// Types and methods
 pub struct AlgoMeta {
   category : String
   time_complexity : ComplexityTag
   space_complexity : ComplexityTag
 }
 
-// Errors
-
-// Types and methods
 pub struct BaselineEntry {
   name : String
   snapshot : BenchmarkSnapshot
