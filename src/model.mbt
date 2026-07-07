@@ -165,6 +165,30 @@ pub fn algo_string_model() -> BenchmarkModel {
 }
 
 ///|
+pub fn algo_graph_model() -> BenchmarkModel {
+  BenchmarkModel::new(
+    "algo-graph", "Algorithm: Graph", "BFS, DFS, and Dijkstra shortest path on adjacency structures",
+    "algo/graph/bfs/v512",
+  )
+}
+
+///|
+pub fn algo_dp_model() -> BenchmarkModel {
+  BenchmarkModel::new(
+    "algo-dp", "Algorithm: Dynamic programming", "Fibonacci variants and longest common subsequence",
+    "algo/dp/lcs/100x100",
+  )
+}
+
+///|
+pub fn algo_numeric_model() -> BenchmarkModel {
+  BenchmarkModel::new(
+    "algo-numeric", "Algorithm: Numeric", "Dot product and dense matrix multiplication",
+    "algo/numeric/matmul/128",
+  )
+}
+
+///|
 pub fn custom_model() -> BenchmarkModel {
   BenchmarkModel::new(
     "custom", "Custom workload", "User supplied benchmark case", "custom/workload",
@@ -190,6 +214,9 @@ pub fn default_benchmark_models() -> Array[BenchmarkModel] {
     algo_sort_model(),
     algo_search_model(),
     algo_string_model(),
+    algo_graph_model(),
+    algo_dp_model(),
+    algo_numeric_model(),
   ]
 }
 
@@ -201,6 +228,12 @@ pub fn benchmark_model_for_name(name : String) -> BenchmarkModel {
     algo_search_model()
   } else if name.contains("algo/string/") {
     algo_string_model()
+  } else if name.contains("algo/graph/") {
+    algo_graph_model()
+  } else if name.contains("algo/dp/") {
+    algo_dp_model()
+  } else if name.contains("algo/numeric/") {
+    algo_numeric_model()
   } else if name.contains("attention/") || name.contains("attention") {
     attention_model()
   } else if name.contains("tensor/") ||
@@ -256,7 +289,7 @@ pub fn benchmark_model_catalog_markdown() -> String {
 ///|
 test "default benchmark model catalog is stable" {
   let models = default_benchmark_models()
-  assert_eq(models.length(), 16)
+  assert_eq(models.length(), 19)
   assert_eq(models[0].id(), "array-sort")
   assert_eq(models[10].default_case(), "tensor/matmul/f32-64x64")
   assert_eq(models[11].default_case(), "nn/activation/relu-1m")
