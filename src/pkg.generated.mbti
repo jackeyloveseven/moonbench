@@ -6,6 +6,20 @@ import {
 }
 
 // Values
+pub fn algo_dp_model() -> BenchmarkModel
+
+pub fn algo_graph_model() -> BenchmarkModel
+
+pub fn algo_meta_for(String) -> AlgoMeta?
+
+pub fn algo_numeric_model() -> BenchmarkModel
+
+pub fn algo_search_model() -> BenchmarkModel
+
+pub fn algo_sort_model() -> BenchmarkModel
+
+pub fn algo_string_model() -> BenchmarkModel
+
 pub fn array_sort_model() -> BenchmarkModel
 
 pub fn attention_model() -> BenchmarkModel
@@ -43,6 +57,12 @@ pub fn parser_model() -> BenchmarkModel
 pub fn string_scan_model() -> BenchmarkModel
 
 pub fn tensor_matmul_model() -> BenchmarkModel
+
+pub struct AlgoMeta {
+  category : String
+  time_complexity : ComplexityTag
+  space_complexity : ComplexityTag
+}
 
 // Errors
 
@@ -448,6 +468,17 @@ pub enum ComparisonKind {
   Slower
   Similar
 } derive(Eq, @debug.Debug)
+
+pub enum ComplexityTag {
+  O1
+  OLogN
+  ON
+  ONLogN
+  ON2
+  ON3
+  Custom(String)
+} derive(Eq)
+pub fn ComplexityTag::label(Self) -> String
 
 pub struct Duration {
   nanos : Int64
