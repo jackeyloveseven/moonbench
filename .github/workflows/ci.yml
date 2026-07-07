@@ -7,10 +7,6 @@ on:
       - main
       - master
 
-env:
-  MOONBIT_VERSION: 0.10.3+16975d007
-  MOONBIT_CORE_VERSION: 0.10.3+16975d007
-
 jobs:
   moonbit:
     name: MoonBit (${{ matrix.os }})
@@ -27,10 +23,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup MoonBit
-        uses: hustcer/setup-moonbit@v1.22
-        with:
-          version: ${{ env.MOONBIT_VERSION }}
-          core-version: ${{ env.MOONBIT_CORE_VERSION }}
+        uses: hustcer/setup-moonbit@v1
 
       - name: Show MoonBit version
         run: moon version --all
@@ -48,6 +41,14 @@ jobs:
           git diff --exit-code
           moon info
           git diff --exit-code
+
+      - name: Run CLI smoke test
+        if: matrix.os == 'ubuntu-latest'
+        run: moon run cli
+
+      - name: Run algo benchmark suite
+        if: matrix.os == 'ubuntu-latest'
+        run: moon run webui | python3 -c "import sys,json; d=json.load(sys.stdin); assert len(d['benchmarks'])==17, f'expected 17, got {len(d[\"benchmarks\"])}'; print('algo suite OK:', d['suite'])"
 
   webui:
     name: Web UI
