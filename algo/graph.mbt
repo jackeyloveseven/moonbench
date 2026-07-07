@@ -99,6 +99,54 @@ pub fn bench_dfs_v512() -> Unit {
 }
 
 ///|
+pub fn dijkstra(adj : Array[Array[Int]], source : Int) -> Array[Int] {
+  let n = adj.length()
+  let dist = Array::make(n, 2147483647)
+  let visited = Array::make(n, false)
+  dist[source] = 0
+  let mut count = 0
+  while count < n {
+    let mut u = -1
+    let mut min_dist = 2147483647
+    for v = 0; v < n; v = v + 1 {
+      if visited[v] == false && dist[v] < min_dist {
+        u = v
+        min_dist = dist[v]
+      }
+    }
+    if u == -1 {
+      count = n
+    } else {
+      visited[u] = true
+      for v = 0; v < n; v = v + 1 {
+        if adj[u][v] > 0 && visited[v] == false {
+          let new_dist = dist[u] + adj[u][v]
+          if new_dist < dist[v] {
+            dist[v] = new_dist
+          }
+        }
+      }
+      count = count + 1
+    }
+  }
+  dist
+}
+
+///|
+pub fn bench_dijkstra_v256() -> Unit {
+  let adj = make_adjacency_matrix(256)
+  let _ = dijkstra(adj, 0)
+}
+
+///|
+test "dijkstra finds shortest paths" {
+  let adj = make_adjacency_matrix(8)
+  let dist = dijkstra(adj, 0)
+  assert_eq(dist[0], 0)
+  assert_true(dist[1] > 0)
+}
+
+///|
 test "bfs visits all reachable nodes" {
   let graph = make_adjacency_list(16)
   let order = bfs(graph, 0)
