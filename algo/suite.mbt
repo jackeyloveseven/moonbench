@@ -76,8 +76,8 @@ pub fn algo_smoke_suite() -> @bench.SuiteResult {
   .add_samples(
     add_samples("algo/string/kmp/10k", [
       96000L, 100000L, 95000L, 101000L, 97000L, 99000L, 94000L, 102000L, 96500L,
-      99500L, 97500L, 98500L, 93000L, 103000L, 98000L, 98000L, 92000L, 104000L,
-      96000L, 100000L,
+      99500L, 97500L, 98500L, 93000L, 103000L, 98000L, 98000L, 92000L, 104000L, 96000L,
+      100000L,
     ]),
   )
   // Graph: O(V+E) and O(V²)
