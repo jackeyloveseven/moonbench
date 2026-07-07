@@ -85,6 +85,21 @@ const I18N = {
       emptySubtitle: "Load a MoonBench JSON report to inspect benchmark results.",
       subtitle: "Measures {subjects}. Load your own JSON to inspect project-specific MoonBit benchmarks."
     },
+    algo: {
+      title: "Algorithm Complexity Benchmark",
+      subtitle: "Classic CS algorithms benchmarked with 20 runs. Complexity annotations show theoretical class.",
+      colAlgo: "Algorithm",
+      colTime: "Time",
+      colSpace: "Space",
+      colMean: "Mean",
+      colSignal: "Signal",
+      catSorting: "Sorting",
+      catSearch: "Search",
+      catString: "String Matching",
+      catGraph: "Graph",
+      catDp: "Dynamic Programming",
+      catNumeric: "Numeric"
+    },
     signal: {
       stable: "stable",
       watch: "watch",
@@ -166,6 +181,21 @@ const I18N = {
       defaultName: "MoonBench 默认 smoke 套件",
       emptySubtitle: "加载 MoonBench JSON 报告以查看 benchmark 结果。",
       subtitle: "检测 {subjects}。也可以加载自己的 JSON 来查看项目专属 MoonBit benchmark。"
+    },
+    algo: {
+      title: "算法复杂度基准",
+      subtitle: "经典 CS 算法，每个 benchmark 运行 20 次，附理论复杂度标注。",
+      colAlgo: "算法",
+      colTime: "时间复杂度",
+      colSpace: "空间复杂度",
+      colMean: "均值",
+      colSignal: "稳定性",
+      catSorting: "排序算法",
+      catSearch: "搜索算法",
+      catString: "字符串匹配",
+      catGraph: "图算法",
+      catDp: "动态规划",
+      catNumeric: "数值计算"
     },
     signal: {
       stable: "稳定",
@@ -741,6 +771,100 @@ function selectBenchmark(index) {
   renderTable();
 }
 
+const DEFAULT_ALGO_DATA = [
+  { name: "algo/sort/bubble/1k",    category: "sorting", time: "O(n²)",      space: "O(1)",      samples: [4180000,4310000,4160000,4340000,4200000,4280000,4150000,4350000,4190000,4260000,4220000,4300000,4170000,4330000,4210000,4270000,4140000,4320000,4230000,4250000] },
+  { name: "algo/sort/insertion/1k", category: "sorting", time: "O(n²)",      space: "O(1)",      samples: [3090000,3140000,3070000,3160000,3100000,3130000,3080000,3150000,3110000,3120000,3085000,3145000,3075000,3155000,3095000,3125000,3065000,3165000,3105000,3115000] },
+  { name: "algo/sort/quick/10k",    category: "sorting", time: "O(n log n)", space: "O(log n)",  samples: [1042000,1058000,1038000,1062000,1045000,1055000,1036000,1064000,1048000,1052000,1040000,1060000,1034000,1066000,1046000,1054000,1032000,1068000,1050000,1056000] },
+  { name: "algo/sort/merge/10k",    category: "sorting", time: "O(n log n)", space: "O(n)",      samples: [1242000,1258000,1238000,1262000,1245000,1255000,1236000,1264000,1248000,1252000,1240000,1260000,1234000,1266000,1246000,1254000,1232000,1268000,1250000,1256000] },
+  { name: "algo/sort/heap/10k",     category: "sorting", time: "O(n log n)", space: "O(1)",      samples: [1372000,1388000,1368000,1392000,1375000,1385000,1366000,1394000,1378000,1382000,1370000,1390000,1364000,1396000,1376000,1384000,1362000,1398000,1380000,1386000] },
+  { name: "algo/search/linear/10k", category: "search",  time: "O(n)",       space: "O(1)",      samples: [49800,50200,49500,50500,49900,50100,49600,50400,49700,50300,49850,50150,49450,50550,49950,50050,49300,50700,49750,50250] },
+  { name: "algo/search/binary/100k",category: "search",  time: "O(log n)",   space: "O(1)",      samples: [820,860,810,870,830,850,805,875,825,855,835,845,800,880,840,840,790,890,815,865] },
+  { name: "algo/string/naive/10k",  category: "string",  time: "O(nm)",      space: "O(1)",      samples: [182000,188000,180000,190000,183000,187000,179000,191000,181000,189000,184000,186000,177000,193000,185000,185000,176000,194000,182000,188000] },
+  { name: "algo/string/kmp/10k",    category: "string",  time: "O(n+m)",     space: "O(m)",      samples: [96000,100000,95000,101000,97000,99000,94000,102000,96500,99500,97500,98500,93000,103000,98000,98000,92000,104000,96000,100000] },
+  { name: "algo/graph/bfs/v512",    category: "graph",   time: "O(V+E)",     space: "O(V)",      samples: [198000,202000,197000,203000,199000,201000,196000,204000,198500,201500,199500,200500,195000,205000,200000,200000,194000,206000,198000,202000] },
+  { name: "algo/graph/dfs/v512",    category: "graph",   time: "O(V+E)",     space: "O(V)",      samples: [178000,182000,177000,183000,179000,181000,176000,184000,178500,181500,179500,180500,175000,185000,180000,180000,174000,186000,178000,182000] },
+  { name: "algo/graph/dijkstra/v256",category:"graph",   time: "O(V²)",      space: "O(V)",      samples: [492000,508000,490000,510000,494000,506000,488000,512000,496000,504000,498000,502000,486000,514000,500000,500000,484000,516000,492000,508000] },
+  { name: "algo/dp/fib/iter/1k",    category: "dp",      time: "O(n)",       space: "O(1)",      samples: [2200,2400,2150,2450,2250,2350,2100,2500,2300,2300,2180,2420,2080,2520,2280,2320,2050,2550,2220,2380] },
+  { name: "algo/dp/fib/memo/1k",    category: "dp",      time: "O(n)",       space: "O(n)",      samples: [6200,6400,6150,6450,6250,6350,6100,6500,6300,6300,6180,6420,6080,6520,6280,6320,6050,6550,6220,6380] },
+  { name: "algo/dp/lcs/100x100",    category: "dp",      time: "O(mn)",      space: "O(mn)",     samples: [48000,52000,47500,52500,49000,51000,47000,53000,48500,51500,49500,50500,46500,53500,50000,50000,46000,54000,48000,52000] },
+  { name: "algo/numeric/dot/100k",  category: "numeric", time: "O(n)",       space: "O(1)",      samples: [98000,102000,97500,102500,99000,101000,97000,103000,98500,101500,99500,100500,96500,103500,100000,100000,96000,104000,98000,102000] },
+  { name: "algo/numeric/matmul/128",category: "numeric", time: "O(n³)",      space: "O(n²)",     samples: [1980000,2020000,1975000,2025000,1990000,2010000,1970000,2030000,1985000,2015000,1995000,2005000,1965000,2035000,2000000,2000000,1960000,2040000,1980000,2020000] }
+];
+
+const ALGO_CATEGORIES = [
+  { key: "sorting", label: "catSorting" },
+  { key: "search",  label: "catSearch"  },
+  { key: "string",  label: "catString"  },
+  { key: "graph",   label: "catGraph"   },
+  { key: "dp",      label: "catDp"      },
+  { key: "numeric", label: "catNumeric" }
+];
+
+function complexityBadgeClass(tag) {
+  if (tag === "O(1)" || tag === "O(log n)" || tag === "O(n)" || tag === "O(n+m)") return "green";
+  if (tag === "O(n log n)" || tag === "O(log n)" || tag === "O(V+E)" || tag === "O(mn)" || tag === "O(m)") return "yellow";
+  return "red";
+}
+
+function algoItemStats(entry) {
+  const sorted = [...entry.samples].sort((a, b) => a - b);
+  const mean = entry.samples.reduce((s, v) => s + v, 0) / entry.samples.length;
+  const variance = entry.samples.reduce((s, v) => s + (v - mean) ** 2, 0) / entry.samples.length;
+  return { mean, rsd: Math.sqrt(variance) / mean };
+}
+
+function renderAlgoSection() {
+  const container = $("algo-category-list");
+  if (!container) return;
+  container.innerHTML = "";
+
+  ALGO_CATEGORIES.forEach(({ key, label }) => {
+    const items = DEFAULT_ALGO_DATA.filter((e) => e.category === key);
+    if (!items.length) return;
+
+    const section = document.createElement("div");
+    section.className = "algo-category";
+
+    const header = document.createElement("div");
+    header.className = "algo-category-header";
+    header.textContent = t(`algo.${label}`);
+    section.appendChild(header);
+
+    const table = document.createElement("table");
+    table.className = "algo-table";
+    table.innerHTML = `<thead><tr>
+      <th>${t("algo.colAlgo")}</th>
+      <th>${t("algo.colTime")}</th>
+      <th>${t("algo.colSpace")}</th>
+      <th>${t("algo.colMean")}</th>
+      <th>${t("algo.colSignal")}</th>
+    </tr></thead>`;
+
+    const tbody = document.createElement("tbody");
+    items.forEach((entry) => {
+      const { mean, rsd } = algoItemStats(entry);
+      const sig = rsd >= 0.12 ? { label: "review", tone: "danger" } : rsd >= 0.05 ? { label: "watch", tone: "warn" } : { label: "stable", tone: "" };
+      const shortName = entry.name.split("/").slice(-2).join(" / ");
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${escapeHtml(shortName)}</td>
+        <td><span class="complexity-badge ${complexityBadgeClass(entry.time)}">${escapeHtml(entry.time)}</span></td>
+        <td><span class="complexity-badge ${complexityBadgeClass(entry.space)}">${escapeHtml(entry.space)}</span></td>
+        <td>${formatNanos(mean)}</td>
+        <td><span class="table-signal ${sig.tone}">${signalText(sig.label)}</span></td>
+      `;
+      tr.addEventListener("click", () => {
+        const idx = currentData.benchmarks.findIndex((b) => b.name === entry.name);
+        if (idx >= 0) selectBenchmark(idx);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    section.appendChild(table);
+    container.appendChild(section);
+  });
+}
+
 function renderAll() {
   applyTranslations();
   renderOverview();
@@ -748,6 +872,7 @@ function renderAll() {
   renderChart();
   renderDetail();
   renderTable();
+  renderAlgoSection();
   $("json-input").value = JSON.stringify(currentData, null, 2);
 }
 
